@@ -1,4 +1,4 @@
-# Living System Debugger
+# siamese
 
 Local-first incident analysis for hackathons. Upload logs and metrics, ask a question, and get a structured incident analysis validated by Pydantic and rendered in a clean Streamlit UI.
 
