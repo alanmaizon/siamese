@@ -1,28 +1,20 @@
-# Inspiration
-I wanted a local-first way to turn messy incident artifacts into a crisp, evidence-backed root cause analysis without sending sensitive data to a remote SaaS UI. The goal: keep teams in control of their data while still benefiting from strong LLM reasoning.
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-# What it does
-Siamese (Living System Debugger) lets you upload incident artifacts—logs, metrics CSVs, configs, and diagrams: ask a natural-language question, and get a validated JSON incident report with summary, timeline, evidence, likely root cause, recommended fixes, and missing information. The UI renders the analysis and lets you download the raw JSON.
+# Run and deploy your AI Studio app
 
-# How we built it
-We built a Streamlit UI on top of a modular Python backend. Artifacts are ingested and compacted into context (logs with head/tail line numbers, metrics anomaly windows, configs capped to 400 lines). The app sends a structured prompt to the selected Gemini models, enforces JSON output, validates it with Pydantic, and saves all run artifacts locally.
+This contains everything you need to run your app locally.
 
-# Challenges we ran into
-- Model availability and rate limits required robust provider toggling and clear error handling.
-- Enforcing valid JSON across different providers needed a repair retry strategy and strict schema validation.
-- Balancing context detail with token limits while keeping evidence traceable.
+View your app in AI Studio: https://ai.studio/apps/drive/1Xa8N0nooOlibltLEKU0b3jSQHqGHxG_2
 
-# Accomplishments that we're proud of
-- Local-first workflow with transparent run artifacts and deterministic ingest.
-- Strict schema validation and automatic JSON repair for reliability.
-- Clean UX that stays focused on the incident analysis workflow.
+## Run Locally
 
-# What we learned
-- Provider differences matter; consistent output needs defensive parsing and retries.
-- Small ingestion choices (line numbers, anomaly windows) greatly improve evidence quality.
-- A simple, focused UI beats a complex dashboard for incident debugging.
+**Prerequisites:**  Node.js
 
-# What's next for Siamese
-- Add richer metrics analysis (correlations, change-point detection).
-- Support additional artifact types (traces, k8s events).
-- Team workflows: comparisons across incidents and shared run history.
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
