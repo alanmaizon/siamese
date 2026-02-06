@@ -1,6 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
 
 # Siamese - Incident Analysis Workspace
 
@@ -38,18 +35,7 @@ To support this, the `package.json` includes a custom `start` script:
 "start": "vite preview --host 0.0.0.0 --port ${PORT:-8080}"
 ```
 
-### Deploy Commands
 
-1.  **Build the Container**
-    ```bash
-    gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/siamese
-    ```
-
-2.  **Deploy Service**
-    ```bash
-    gcloud run deploy siamese \
-      --image gcr.io/YOUR_PROJECT_ID/siamese \
-      --platform managed \
-      --allow-unauthenticated \
-      --set-env-vars API_KEY=your_api_key
-    ```
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
