@@ -1,52 +1,28 @@
-# siamese
+# Inspiration
+I wanted a local-first way to turn messy incident artifacts into a crisp, evidence-backed root cause analysis without sending sensitive data to a remote SaaS UI. The goal: keep teams in control of their data while still benefiting from strong LLM reasoning.
 
-Local-first incident analysis. Upload logs and metrics, ask a question, and get a structured incident analysis validated by Pydantic and rendered in a clean Streamlit UI.
+# What it does
+Siamese (Living System Debugger) lets you upload incident artifacts—logs, metrics CSVs, configs, and diagrams: ask a natural-language question, and get a validated JSON incident report with summary, timeline, evidence, likely root cause, recommended fixes, and missing information. The UI renders the analysis and lets you download the raw JSON.
 
-**Why Gemini 3 is essential**
-Gemini 3 provides strong multi-document reasoning and structured output control, which lets the app produce consistent JSON incident reports from heterogeneous artifacts (logs, CSV metrics, configs, and optional diagrams). This project relies on Gemini 3 to synthesize evidence-backed root cause analysis across multiple data sources.
+# How we built it
+We built a Streamlit UI on top of a modular Python backend. Artifacts are ingested and compacted into context (logs with head/tail line numbers, metrics anomaly windows, configs capped to 400 lines). The app sends a structured prompt to the selected Gemini models, enforces JSON output, validates it with Pydantic, and saves all run artifacts locally.
 
-**Setup**
-1. Create and activate a virtual environment (Python 3.11+).
-2. Install dependencies.
-3. Export your Gemini API key.
+# Challenges we ran into
+- Model availability and rate limits required robust provider toggling and clear error handling.
+- Enforcing valid JSON across different providers needed a repair retry strategy and strict schema validation.
+- Balancing context detail with token limits while keeping evidence traceable.
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-export GEMINI_API_KEY="your_key_here"
-# Optional: export GEMINI_MODEL="gemini-2.5-flash"
-```
+# Accomplishments that we're proud of
+- Local-first workflow with transparent run artifacts and deterministic ingest.
+- Strict schema validation and automatic JSON repair for reliability.
+- Clean UX that stays focused on the incident analysis workflow.
 
-You can also create a `.env` file (based on `.env.example`) and the app will load it automatically.
+# What we learned
+- Provider differences matter; consistent output needs defensive parsing and retries.
+- Small ingestion choices (line numbers, anomaly windows) greatly improve evidence quality.
+- A simple, focused UI beats a complex dashboard for incident debugging.
 
-**Run**
-```bash
-./scripts/run_streamlit.sh
-```
-Or:
-```bash
-streamlit run app/ui_streamlit.py
-```
-
-**How to use demo artifacts**
-1. Place example files in `demo_artifacts/`.
-2. Open the UI and upload those files.
-3. Ask a question like one of the examples below.
-
-**Example questions**
-- Why did API latency spike after the most recent deployment?
-- What caused the 5xx error rate to jump around 14:32 UTC?
-- Is the database saturation related to the increase in cache misses?
-
-**Troubleshooting**
-- Missing key: If you see a missing key error, confirm `GEMINI_API_KEY` is set in your shell environment or in `.env`.
-- Invalid JSON: The app attempts one automatic repair. If output is still invalid, the raw response is saved under `runs/<timestamp>/raw_output.txt` for inspection.
-
-**Outputs**
-Each analysis run saves:
-- `runs/<timestamp>/inputs.json`
-- `runs/<timestamp>/question.txt`
-- `runs/<timestamp>/context.txt`
-- `runs/<timestamp>/output.json` (if valid)
-- `runs/<timestamp>/raw_output.txt`
+# What's next for Siamese
+- Add richer metrics analysis (correlations, change-point detection).
+- Support additional artifact types (traces, k8s events).
+- Team workflows: comparisons across incidents and shared run history.
