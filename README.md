@@ -1,6 +1,6 @@
 # siamese
 
-Local-first incident analysis for hackathons. Upload logs and metrics, ask a question, and get a structured incident analysis validated by Pydantic and rendered in a clean Streamlit UI.
+Local-first incident analysis. Upload logs and metrics, ask a question, and get a structured incident analysis validated by Pydantic and rendered in a clean Streamlit UI.
 
 **Why Gemini 3 is essential**
 Gemini 3 provides strong multi-document reasoning and structured output control, which lets the app produce consistent JSON incident reports from heterogeneous artifacts (logs, CSV metrics, configs, and optional diagrams). This project relies on Gemini 3 to synthesize evidence-backed root cause analysis across multiple data sources.
