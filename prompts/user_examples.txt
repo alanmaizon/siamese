@@ -1,0 +1,5 @@
+Why did API latency spike after the most recent deployment?
+
+What caused the 5xx error rate to jump around 14:32 UTC on the last incident day?
+
+Is the database saturation related to the increase in cache misses, and what evidence supports that?
