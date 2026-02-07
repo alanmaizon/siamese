@@ -1,10 +1,15 @@
-# Siamese - Gemini Incident Analysis Workspace
+# Siamese - Incident Analysis Workspace
 
 Siamese is a containerized incident-analysis app that turns uploaded logs into a structured incident report using Gemini.
 
 ## Live links
 - Demo: https://siamese-911931794549.us-west1.run.app/
 - Repo: https://github.com/alanmaizon/siamese
+
+## Screenshots
+![Siamese screenshot at 2026-02-06 16:43:19](img/Screenshot%202026-02-06%20at%2016.43.19.png)
+![Siamese screenshot at 2026-02-06 19:29:02](img/Screenshot%202026-02-06%20at%2019.29.02.png)
+![Siamese screenshot at 2026-02-06 19:31:37](img/Screenshot%202026-02-06%20at%2019.31.37.png)
 
 ## Hackathon focus
 - Browser-first UX for rapid incident triage.
