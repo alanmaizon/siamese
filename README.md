@@ -1,6 +1,6 @@
 # Siamese - Incident Analysis Workspace
 
-Siamese is a containerized incident-analysis app that turns uploaded logs into a structured incident report using Gemini.
+Siamese is a secury incident-analysis app that turns uploaded logs into a structured incident report using Gemini.
 
 ## Live links
 - [Demo Google Cloud Run](https://siamese-911931794549.us-west1.run.app/)
@@ -21,6 +21,25 @@ Siamese is a containerized incident-analysis app that turns uploaded logs into a
 - Google GenAI SDK (`@google/genai`)
 - Nginx runtime container
 - GitHub Actions for CI/CD
+
+## Architecture Design
+
+```mermaid
+flowchart TB
+  subgraph Client[Client: Siamese local-first]
+    A[Artifacts: logs • metrics • configs • diagrams] --> B[Local parser + normalizer]
+    B --> C[Context compaction + evidence references]
+    B --> D[Local retrieval index]
+    Q[Question] --> E[Evidence retrieval]
+    D --> E
+    E --> F[Prompt builder text-only]
+    F --> G[JSON validator + repair]
+    G --> H[Report UI + Export]
+  end
+
+  F -->|Bedrock/Gemini call text-only| M[(LLM)]
+  M -->|Structured JSON| G
+```
 
 ## Runtime configuration
 The app reads API key values in this order:
