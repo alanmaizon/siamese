@@ -11,7 +11,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ files, onFilesChange }) 
   const handleFileChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const newFiles: FileArtifact[] = [];
-      const fileList = Array.from(event.target.files);
+      const fileList: File[] = Array.from(event.target.files);
 
       for (const file of fileList) {
         try {

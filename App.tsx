@@ -5,6 +5,7 @@ import { LandingPage } from './components/LandingPage';
 import { analyzeIncident } from './services/geminiService';
 import { FileArtifact, AnalysisState } from './types';
 import { DEFAULT_MODEL } from './constants';
+import { getGeminiApiKey } from './config';
 import { AlertTriangle, Fingerprint, Play, Cpu, Sparkles } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -35,8 +36,7 @@ const App: React.FC = () => {
     setAnalysisState({ status: 'loading', rawResponse: null, parsedReport: null, error: null });
 
     try {
-      // Accessing API Key from process.env as per strict instructions
-      const apiKey = process.env.API_KEY || ""; 
+      const apiKey = getGeminiApiKey();
       
       const { text, json } = await analyzeIncident(apiKey, model, question, files);
       

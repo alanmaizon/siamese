@@ -1,0 +1,11 @@
+services:
+  siamese:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: siamese:local
+    ports:
+      - "8080:8080"
+    environment:
+      VITE_GEMINI_API_KEY: ${VITE_GEMINI_API_KEY:-}
+      VITE_API_KEY: ${VITE_API_KEY:-}

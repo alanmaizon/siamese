@@ -1,41 +1,83 @@
+# Siamese - Gemini Incident Analysis Workspace
 
-# Siamese - Incident Analysis Workspace
+Siamese is a containerized incident-analysis app that turns uploaded logs into a structured incident report using Gemini.
 
-Siamese is a secure, frontend-only incident analysis tool powered by Google's Gemini models. It allows Site Reliability Engineers (SREs) to upload log artifacts locally in the browser and generate structured, AI-driven root cause analysis reports.
+## Live links
+- Demo: https://siamese-911931794549.us-west1.run.app/
+- Repo: https://github.com/alanmaizon/siamese
 
-## Architecture
+## Hackathon focus
+- Browser-first UX for rapid incident triage.
+- Structured JSON outputs: summary, timeline, root causes, evidence, mitigations, follow-ups, confidence.
+- Containerized architecture that runs locally and mirrors Cloud Run deployment behavior.
 
-*   **Frontend**: React 19 (Client-side SPA)
-*   **Build System**: Vite
-*   **Styling**: Tailwind CSS & Lucide React
-*   **AI Integration**: Google GenAI SDK (`@google/genai`)
-*   **Privacy**: File parsing happens entirely in the browser memory. Only text content is sent to the Gemini API for analysis; no artifacts are persisted on any backend.
+## Stack
+- React 19 + TypeScript + Vite
+- Google GenAI SDK (`@google/genai`)
+- Nginx runtime container
+- GitHub Actions for CI/CD
 
-## Deployment on Google Cloud Run
+## Runtime configuration
+The app reads API key values in this order:
+1. `window.__SIAMESE_CONFIG__.geminiApiKey` from `env-config.js` (runtime-injected in container)
+2. `VITE_GEMINI_API_KEY`
+3. `VITE_API_KEY`
 
-This application is designed to run as a stateless container on Google Cloud Run.
+## Quick start (local)
+### Option A: Node
+1. `npm install`
+2. `cp .env.example .env.local`
+3. Set `VITE_GEMINI_API_KEY`
+4. `npm run dev`
 
-### Prerequisites
-1.  A Google Cloud Project.
-2.  A valid [Gemini API Key](https://aistudio.google.com/).
+### Option B: Docker
+1. `cp .env.example .env`
+2. Set `VITE_GEMINI_API_KEY`
+3. `npm run container:up`
+4. Open `http://localhost:8080`
+5. Use `npm run container:logs` to inspect startup logs
 
-### Environment Variables
-The application requires the following environment variable to be set in the runtime environment:
+Container helper commands:
+- `npm run container:status` to check running services
+- `npm run container:restart` to rebuild and restart
+- `npm run container:down` to stop and remove containers
+- `npm run container:help` to print all supported container commands
 
-*   `API_KEY`: Your Gemini API Key.
+## Repository hygiene
+- Run `npm run sanitize` before opening a PR.
+- The sanitize script verifies `.env` is not tracked and checks tracked files for obvious key material.
+- Full docs index: `docs/README.md`
 
-> **Note:** Since this is a client-side application served via Vite, the API key needs to be available at build time or handled via a proxy for production security. For this demo, we assume the key is provided via `process.env`.
+## CI/CD
+- CI workflow: `.github/workflows/ci.yml`
+  - `npm run typecheck`
+  - `npm run build`
+  - `docker build`
+- CD workflow: `.github/workflows/deploy-cloud-run.yml`
+  - Build + push image to Artifact Registry
+  - Deploy to Cloud Run using GitHub secrets
 
-### Port Configuration
-Google Cloud Run injects a `PORT` environment variable (defaulting to `8080`) into the container. The application server must listen on this port.
+## Containerized architecture
+- Multi-stage Docker build (`node:20-alpine` -> `nginx:alpine`)
+- Nginx serves SPA and injects runtime config via `docker/nginx/entrypoint.sh`
+- Same image behavior locally and on Cloud Run (`PORT 8080`)
 
-To support this, the `package.json` includes a custom `start` script:
+Detailed design: `docs/architecture.md`
 
-```bash
-"start": "vite preview --host 0.0.0.0 --port ${PORT:-8080}"
-```
+## SDLC and governance
+- Contributing: `CONTRIBUTING.md`
+- Security policy: `SECURITY.md`
+- Code of conduct: `CODE_OF_CONDUCT.md`
+- Changelog: `CHANGELOG.md`
+- Issue templates and PR template in `.github/`
 
+## Wiki section (in-repo)
+- `docs/wiki/Home.md`
+- `docs/wiki/Architecture.md`
+- `docs/wiki/Local-Development.md`
+- `docs/wiki/Cloud-Run-Deployment.md`
+- `docs/wiki/SDLC.md`
+- `docs/wiki/Roadmap.md`
 
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+## Future implementation issues
+Planned backlog: `docs/roadmap-issues.md`
