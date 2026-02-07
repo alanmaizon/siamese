@@ -56,13 +56,17 @@ Container helper commands:
 ## Testing
 - Run all automated tests: `npm test`
 - Watch mode while developing: `npm run test:watch`
+- Run browser smoke tests: `npm run test:e2e`
 - Current suite covers:
   - API key resolution precedence in `config.ts`
+  - Gemini service request/response handling in `services/geminiService.ts`
   - App flow checks in `App.tsx` (validation, successful analysis rendering, service error handling)
+  - End-to-end smoke flow (landing -> workspace -> validation error path) in `e2e/smoke.spec.ts`
 
 ## CI/CD
 - CI workflow: `.github/workflows/ci.yml`
   - `npm test`
+  - `npm run test:e2e`
   - `npm run typecheck`
   - `npm run build`
   - `docker build`

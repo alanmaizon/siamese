@@ -43,6 +43,7 @@ This repository includes:
 - Code of conduct: `CODE_OF_CONDUCT.md`
 - Changelog: `CHANGELOG.md`
 - Automated tests with Vitest + Testing Library (`npm test`)
+- Browser smoke test with Playwright (`npm run test:e2e`)
 - Issue templates + PR template in `.github/`
 - CI workflow: `.github/workflows/ci.yml`
 - CD workflow: `.github/workflows/deploy-cloud-run.yml` (optional; skips when deploy secrets are not configured)
@@ -65,6 +66,7 @@ This repository includes:
 ## Sanitization and organization
 - Repository hygiene checks: `npm run sanitize`
 - Automated tests: `npm test`
+- Browser smoke test: `npm run test:e2e`
 - Container automation script: `scripts/container.sh`
 - Documentation index: `docs/README.md`
 

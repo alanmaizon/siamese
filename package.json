@@ -8,6 +8,8 @@
     "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
     "typecheck": "tsc --noEmit",
     "sanitize": "bash ./scripts/sanitize.sh",
     "check": "npm run sanitize && npm run typecheck && npm test && npm run build",
@@ -29,6 +31,7 @@
     "lucide-react": "^0.563.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.14.0",
