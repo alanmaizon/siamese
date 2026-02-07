@@ -5,12 +5,34 @@ on:
   push:
     branches: [main]
 
-env:
-  HAS_DEPLOY_SECRETS: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER != '' && secrets.GCP_SERVICE_ACCOUNT != '' && secrets.GCP_PROJECT_ID != '' && secrets.GCP_REGION != '' && secrets.GCP_REPOSITORY != '' && secrets.CLOUD_RUN_SERVICE != '' && secrets.VITE_GEMINI_API_KEY != '' }}
-
 jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      has_deploy_secrets: ${{ steps.check.outputs.has_deploy_secrets }}
+    steps:
+      - name: Check deployment secrets
+        id: check
+        env:
+          GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_REGION: ${{ secrets.GCP_REGION }}
+          GCP_REPOSITORY: ${{ secrets.GCP_REPOSITORY }}
+          CLOUD_RUN_SERVICE: ${{ secrets.CLOUD_RUN_SERVICE }}
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
+        run: |
+          if [[ -n "${GCP_WORKLOAD_IDENTITY_PROVIDER}" && -n "${GCP_SERVICE_ACCOUNT}" && -n "${GCP_PROJECT_ID}" && -n "${GCP_REGION}" && -n "${GCP_REPOSITORY}" && -n "${CLOUD_RUN_SERVICE}" && -n "${VITE_GEMINI_API_KEY}" ]]; then
+            echo "has_deploy_secrets=true" >> "$GITHUB_OUTPUT"
+            echo "All deploy secrets are present."
+          else
+            echo "has_deploy_secrets=false" >> "$GITHUB_OUTPUT"
+            echo "Missing one or more deploy secrets; Cloud Run deploy job will be skipped."
+          fi
+
   deploy:
-    if: ${{ env.HAS_DEPLOY_SECRETS == 'true' }}
+    needs: preflight
+    if: ${{ needs.preflight.outputs.has_deploy_secrets == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -50,7 +72,8 @@ jobs:
             --set-env-vars "VITE_GEMINI_API_KEY=${{ secrets.VITE_GEMINI_API_KEY }}"
 
   deploy-skipped:
-    if: ${{ env.HAS_DEPLOY_SECRETS != 'true' }}
+    needs: preflight
+    if: ${{ needs.preflight.outputs.has_deploy_secrets != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Skip deploy when secrets are missing
