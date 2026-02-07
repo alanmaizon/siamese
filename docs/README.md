@@ -17,3 +17,4 @@
 ## Repository hygiene
 - `scripts/sanitize.sh`: checks for tracked `.env` files and obvious secret material.
 - `scripts/container.sh`: standardized Docker workflow (`up`, `down`, `restart`, `logs`, `status`).
+- `scripts/sync_wiki.sh`: publishes `docs/wiki/*.md` to the GitHub wiki (`npm run wiki:sync`).

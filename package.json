@@ -17,7 +17,8 @@
     "container:build": "bash ./scripts/container.sh build",
     "container:logs": "bash ./scripts/container.sh logs",
     "container:status": "bash ./scripts/container.sh status",
-    "container:help": "bash ./scripts/container.sh help"
+    "container:help": "bash ./scripts/container.sh help",
+    "wiki:sync": "bash ./scripts/sync_wiki.sh"
   },
   "dependencies": {
     "react": "^19.2.4",
