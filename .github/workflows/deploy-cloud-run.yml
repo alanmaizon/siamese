@@ -5,8 +5,12 @@ on:
   push:
     branches: [main]
 
+env:
+  HAS_DEPLOY_SECRETS: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER != '' && secrets.GCP_SERVICE_ACCOUNT != '' && secrets.GCP_PROJECT_ID != '' && secrets.GCP_REGION != '' && secrets.GCP_REPOSITORY != '' && secrets.CLOUD_RUN_SERVICE != '' && secrets.VITE_GEMINI_API_KEY != '' }}
+
 jobs:
   deploy:
+    if: ${{ env.HAS_DEPLOY_SECRETS == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -44,3 +48,13 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --set-env-vars "VITE_GEMINI_API_KEY=${{ secrets.VITE_GEMINI_API_KEY }}"
+
+  deploy-skipped:
+    if: ${{ env.HAS_DEPLOY_SECRETS != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip deploy when secrets are missing
+        run: |
+          echo "Cloud Run deployment skipped."
+          echo "Reason: one or more required GitHub secrets are missing."
+          echo "If deployment is handled outside GitHub Actions (for example AI Studio), this is expected."

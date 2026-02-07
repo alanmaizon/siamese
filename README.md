@@ -54,8 +54,9 @@ Container helper commands:
   - `npm run build`
   - `docker build`
 - CD workflow: `.github/workflows/deploy-cloud-run.yml`
-  - Build + push image to Artifact Registry
-  - Deploy to Cloud Run using GitHub secrets
+  - Optional Cloud Run deploy path through GitHub Actions
+  - Auto-skips if required GCP/GitHub secrets are not configured
+  - Manual/external deployment (for example AI Studio) remains supported
 
 ## Containerized architecture
 - Multi-stage Docker build (`node:20-alpine` -> `nginx:alpine`)

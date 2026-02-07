@@ -44,7 +44,7 @@ This repository includes:
 - Changelog: `CHANGELOG.md`
 - Issue templates + PR template in `.github/`
 - CI workflow: `.github/workflows/ci.yml`
-- CD workflow: `.github/workflows/deploy-cloud-run.yml`
+- CD workflow: `.github/workflows/deploy-cloud-run.yml` (optional; skips when deploy secrets are not configured)
 - In-repo wiki docs under `docs/wiki/`
 
 ## Local run instructions
