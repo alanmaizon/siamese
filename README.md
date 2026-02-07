@@ -1,6 +1,6 @@
 # Siamese - Incident Analysis Workspace
 
-Siamese is a secury incident-analysis app that turns uploaded logs into a structured incident report using Gemini.
+Siamese is a secure incident-analysis app that turns uploaded logs into a structured incident report using Gemini.
 
 ## Live links
 - [Demo Google Cloud Run](https://siamese-911931794549.us-west1.run.app/)
