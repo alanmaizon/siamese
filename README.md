@@ -3,8 +3,8 @@
 Siamese is a containerized incident-analysis app that turns uploaded logs into a structured incident report using Gemini.
 
 ## Live links
-- Demo: https://siamese-911931794549.us-west1.run.app/
-- Repo: https://github.com/alanmaizon/siamese
+- [Demo Google Cloud Run](https://siamese-911931794549.us-west1.run.app/)
+- [Demo Google AI Studio](https://aistudio.google.com/apps/drive/1Xa8N0nooOlibltLEKU0b3jSQHqGHxG_2)
 
 ## Screenshots
 ![Siamese screenshot at 2026-02-06 16:43:19](img/Screenshot%202026-02-06%20at%2016.43.19.png)
