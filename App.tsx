@@ -25,11 +25,19 @@ const App: React.FC = () => {
 
   const handleAnalyze = async () => {
     if (files.length === 0) {
-      setAnalysisState(prev => ({ ...prev, error: "Please upload at least one file to analyze." }));
+      setAnalysisState(prev => ({
+        ...prev,
+        status: 'error',
+        error: "Please upload at least one file to analyze.",
+      }));
       return;
     }
     if (!question.trim()) {
-      setAnalysisState(prev => ({ ...prev, error: "Please enter a question regarding the incident." }));
+      setAnalysisState(prev => ({
+        ...prev,
+        status: 'error',
+        error: "Please enter a question regarding the incident.",
+      }));
       return;
     }
 

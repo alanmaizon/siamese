@@ -8,6 +8,19 @@ interface FileUploadProps {
 }
 
 export const FileUpload: React.FC<FileUploadProps> = ({ files, onFilesChange }) => {
+  const readFileContent = useCallback((file: File): Promise<string> => {
+    if (typeof file.text === 'function') {
+      return file.text();
+    }
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : '');
+      reader.onerror = () => reject(reader.error || new Error('Failed to read file'));
+      reader.readAsText(file);
+    });
+  }, []);
+
   const handleFileChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const newFiles: FileArtifact[] = [];
@@ -15,7 +28,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ files, onFilesChange }) 
 
       for (const file of fileList) {
         try {
-          const text = await file.text();
+          const text = await readFileContent(file);
           newFiles.push({
             name: file.name,
             content: text,
@@ -29,7 +42,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ files, onFilesChange }) 
       onFilesChange([...files, ...newFiles]);
       event.target.value = '';
     }
-  }, [files, onFilesChange]);
+  }, [files, onFilesChange, readFileContent]);
 
   const removeFile = useCallback((indexToRemove: number) => {
     onFilesChange(files.filter((_, index) => index !== indexToRemove));

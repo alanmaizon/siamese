@@ -53,8 +53,16 @@ Container helper commands:
 - The sanitize script verifies `.env` is not tracked and checks tracked files for obvious key material.
 - Full docs index: `docs/README.md`
 
+## Testing
+- Run all automated tests: `npm test`
+- Watch mode while developing: `npm run test:watch`
+- Current suite covers:
+  - API key resolution precedence in `config.ts`
+  - App flow checks in `App.tsx` (validation, successful analysis rendering, service error handling)
+
 ## CI/CD
 - CI workflow: `.github/workflows/ci.yml`
+  - `npm test`
   - `npm run typecheck`
   - `npm run build`
   - `docker build`

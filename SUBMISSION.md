@@ -30,7 +30,7 @@ Siamese is a browser-first incident analysis workspace powered by Gemini. Users 
 - Runtime: Nginx container serving static SPA
 - Config strategy: runtime env injection via `env-config.js` for local/Docker/Cloud Run parity
 - Deployment: Google Cloud Run
-- CI/CD: GitHub Actions (typecheck, build, docker build, Cloud Run deploy workflow)
+- CI/CD: GitHub Actions (automated tests, typecheck, build, docker build, Cloud Run deploy workflow)
 
 Detailed architecture docs:
 - `docs/architecture.md`
@@ -42,6 +42,7 @@ This repository includes:
 - Security policy: `SECURITY.md`
 - Code of conduct: `CODE_OF_CONDUCT.md`
 - Changelog: `CHANGELOG.md`
+- Automated tests with Vitest + Testing Library (`npm test`)
 - Issue templates + PR template in `.github/`
 - CI workflow: `.github/workflows/ci.yml`
 - CD workflow: `.github/workflows/deploy-cloud-run.yml` (optional; skips when deploy secrets are not configured)
@@ -63,6 +64,7 @@ This repository includes:
 
 ## Sanitization and organization
 - Repository hygiene checks: `npm run sanitize`
+- Automated tests: `npm test`
 - Container automation script: `scripts/container.sh`
 - Documentation index: `docs/README.md`
 
